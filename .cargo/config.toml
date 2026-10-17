@@ -1,0 +1,5 @@
+# SPDX-FileCopyrightText: 2026 The OATS Authors
+# SPDX-License-Identifier: Apache-2.0
+
+[alias]
+xtask = "run --quiet --package xtask --"
