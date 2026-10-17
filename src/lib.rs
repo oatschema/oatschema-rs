@@ -1,8 +1,11 @@
 // SPDX-FileCopyrightText: 2026 The OATS Authors
 // SPDX-License-Identifier: Apache-2.0
 
-//! The OATS (Open Annotation Task Schemas) JSON schemas, bundled for Rust: strict, versioned
-//! schemas for the outputs of machine learning models, workflows and human annotation.
+//! The OATS (Open Annotation Task Schemas) JSON schemas for Rust.
+//!
+//! OATS is a collection of strict, versioned JSON Schema 2020-12 schemas, defining and validating
+//! the structured outputs of machine learning models, workflow steps and annotation. Models,
+//! pipelines and people write the same JSON for each task, whatever produced it.
 //!
 //! Every OATS release from 0.8.0 on is compiled into the crate, unchanged, so nothing touches
 //! the network or the filesystem. Schemas, documentation and the changelog live at
