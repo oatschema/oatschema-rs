@@ -2,7 +2,7 @@
 
 All notable changes to this crate are recorded here. The crate follows [semantic versioning](https://semver.org), independent of the OATS schema versions; see "Versioning policy" in the README.
 
-## 0.0.1 (unreleased)
+## 0.0.1 (2026-10-18)
 
 First release.
 
