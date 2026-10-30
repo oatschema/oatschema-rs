@@ -1,6 +1,12 @@
 # Changelog
 
-All notable changes to this crate are recorded here. The crate follows [semantic versioning](https://semver.org), independent of the OATS schema versions; see "Versioning policy" in the README.
+All notable changes to this crate are recorded here. The crate follows [semantic versioning](https://semver.org), independent of the OATS schema versions; see "Versions" in the README.
+
+## 0.0.2 (2026-10-30)
+
+- Fixed the README's validation example, which no longer compiled with current versions of the `jsonschema` crate (`instance_path` is now a method). Every Rust example in the README now runs as a doctest.
+- The release workflow skips a version that is already on crates.io, instead of failing.
+- No API or schema changes; still bundles OATS 0.8.0.
 
 ## 0.0.1 (2026-10-18)
 
