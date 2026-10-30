@@ -16,19 +16,23 @@ OATS is a collection of strict, versioned JSON Schema 2020-12 schemas, defining 
 
 ## Quick start
 
-```
+```sh
 cargo add oatschema
 ```
 
 ```rust
 use oatschema::{SchemaName, schema_json};
 
-let text = schema_json(SchemaName::Classification, None)?;  // the schema file, exactly as released
-assert!(text.contains(r#""$id": "https://oatschema.org/0.8.0/classification""#));
-assert_eq!(oatschema::SCHEMA_VERSION, "0.8.0");  // used when you don't pass a version
+fn main() -> Result<(), oatschema::Error> {
+    let text = schema_json(SchemaName::Classification, None)?;  // the schema file, exactly as released
+    assert!(text.contains(r#""$id": "https://oatschema.org/0.8.0/classification""#));
+    assert_eq!(oatschema::SCHEMA_VERSION, "0.8.0");  // used when you don't pass a version
 
-let name: SchemaName = "llm-output".parse()?;  // or SchemaName::LlmOutput
-let pinned = schema_json(name, Some("0.8.0"))?;
+    let name: SchemaName = "llm-output".parse()?;  // or SchemaName::LlmOutput
+    let pinned = schema_json(name, Some("0.8.0"))?;
+    assert!(pinned.contains(r#""x-version": "0.8.0""#));
+    Ok(())
+}
 ```
 
 Requires Rust 1.85 or later. With `cargo add oatschema --features serde_json`, `oatschema::schema` returns a `serde_json::Value` instead of text.
@@ -60,12 +64,19 @@ This release has no validator of its own; pass a schema to any JSON Schema 2020-
 use oatschema::SchemaName;
 use serde_json::json;
 
-let schema = oatschema::schema(SchemaName::Classification, None)?;
-let validator = jsonschema::options().should_validate_formats(true).build(&schema)?;
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let schema = oatschema::schema(SchemaName::Classification, None)?;
+    let validator = jsonschema::options().should_validate_formats(true).build(&schema)?;
 
-validator.is_valid(&json!({"labels": [{"label": "cat", "score": 0.92}]}));  // true
-for error in validator.iter_errors(&json!({"labels": [{"label": "cat", "score": 1.5}]})) {
-    println!("{}: {error}", error.instance_path);  // /labels/0/score: 1.5 is greater than the maximum of 1
+    assert!(validator.is_valid(&json!({"labels": [{"label": "cat", "score": 0.92}]})));
+
+    let record = json!({"labels": [{"label": "cat", "score": 1.5}]});
+    let errors: Vec<String> = validator
+        .iter_errors(&record)
+        .map(|error| format!("{}: {error}", error.instance_path()))
+        .collect();
+    assert_eq!(errors, ["/labels/0/score: 1.5 is greater than the maximum of 1"]);
+    Ok(())
 }
 ```
 

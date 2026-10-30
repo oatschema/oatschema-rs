@@ -14,7 +14,7 @@ repository = "https://github.com/oatschema/oatschema-rs"
 
 [package]
 name = "oatschema"
-version = "0.0.1"
+version = "0.0.2"
 description = "OATS (Open Annotation Task Schemas) JSON schemas, bundled for Rust."
 edition.workspace = true
 rust-version.workspace = true
@@ -35,6 +35,7 @@ serde_json = ["dep:serde_json"]
 serde_json = { version = "1.0.100", optional = true }
 
 [dev-dependencies]
+jsonschema = { version = "=0.59.0", default-features = false }
 serde_json = "1.0.100"
 sha2 = "0.10.8"
 

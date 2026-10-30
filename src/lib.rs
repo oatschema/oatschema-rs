@@ -41,8 +41,13 @@
 
 #![forbid(unsafe_code)]
 #![warn(missing_docs)]
+#![doc(test(attr(deny(warnings))))]
 
 mod generated;
+
+#[cfg(all(doctest, feature = "serde_json"))]
+#[doc = include_str!("../README.md")]
+pub struct ReadmeDoctests;
 
 use std::fmt;
 use std::str::FromStr;
