@@ -757,7 +757,7 @@ mod tests {
     #[test]
     fn check_schema_rejects_other_notices() {
         for notice in [
-            "Copyright 2025-2026 Dorsal Hub LTD",
+            "Copyright 2025-2026 OATS Authors",
             "Copyright The OATS Authors",
             "Copyright 25 The OATS Authors",
             "Copyright 2026-2025 The OATS Authors",

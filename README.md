@@ -25,12 +25,12 @@ use oatschema::{SchemaName, schema_json};
 
 fn main() -> Result<(), oatschema::Error> {
     let text = schema_json(SchemaName::Classification, None)?;  // the schema file, exactly as released
-    assert!(text.contains(r#""$id": "https://oatschema.org/0.8.0/classification""#));
-    assert_eq!(oatschema::SCHEMA_VERSION, "0.8.0");  // used when you don't pass a version
+    assert!(text.contains(r#""$id": "https://oatschema.org/0.9.0/classification""#));
+    assert_eq!(oatschema::SCHEMA_VERSION, "0.9.0");  // used when you don't pass a version
 
     let name: SchemaName = "llm-output".parse()?;  // or SchemaName::LlmOutput
-    let pinned = schema_json(name, Some("0.8.0"))?;
-    assert!(pinned.contains(r#""x-version": "0.8.0""#));
+    let pinned = schema_json(name, Some("0.9.0"))?;
+    assert!(pinned.contains(r#""x-version": "0.9.0""#));
     Ok(())
 }
 ```
@@ -93,7 +93,7 @@ Build each validator once and reuse it. Turn on format checking (`uri`, `date-ti
 | `SchemaName` | The schema names, with `ALL`, `as_str`, `Display` and `FromStr` |
 | `Error` | `UnknownName`, `UnknownVersion` or `NotInVersion` |
 
-- `version` is an `Option<&str>`; `None` means `SCHEMA_VERSION`. It must be exact: `"0.8.0"`, never `"0.8"` or `"latest"`.
+- `version` is an `Option<&str>`; `None` means `SCHEMA_VERSION`. It must be exact: `"0.9.0"`, never `"0.9"` or `"latest"`.
 - Parsing a name that exists in no bundled version gives `Error::UnknownName`. A version that isn't bundled gives `Error::UnknownVersion`, and one that lacks the schema gives `Error::NotInVersion`.
 - `SchemaName` and `Error` are `#[non_exhaustive]`, so new schemas and error cases don't break your `match`es.
 
@@ -103,9 +103,9 @@ Build each validator once and reuse it. Turn on format checking (`uri`, `date-ti
 
 ## Versions
 
-**Schema versions.** Each schema states its release in `x-version`, and its `$id` includes it (`https://oatschema.org/0.8.0/classification`), so several versions can share one validator registry. Before OATS 1.0, a new release may reject records an older one accepted: pass the version a record was written for. This crate bundles OATS 0.8.0, the first public release, and every later one. For 0.4.0 to 0.7.0, use [oatschema-py](https://github.com/oatschema/oatschema-py).
+**Schema versions.** Each schema states its release in `x-version`, and its `$id` includes it (`https://oatschema.org/0.9.0/classification`), so several versions can share one validator registry. Before OATS 1.0, a new release may reject records an older one accepted: pass the version a record was written for. This crate bundles OATS 0.8.0, the first public release, and every later one. For 0.4.0 to 0.7.0, use [oatschema-py](https://github.com/oatschema/oatschema-py).
 
-**Crate versions.** The crate has its own semantic version, which never encodes a schema version. Upgrading never removes a schema version. Before 1.0, a release that bundles a new OATS release, and so changes the default `SCHEMA_VERSION`, is a minor bump, so Cargo's default `0.x.y` requirement keeps your default fixed. Raising the minimum supported Rust version is also a minor bump.
+**Crate versions.** The crate has its own semantic version, which never encodes a schema version. Upgrading never removes a schema version. Before 1.0, a release that bundles a new OATS release, and so changes the default `SCHEMA_VERSION`, is a breaking bump under Cargo's rules: the patch number while the crate is on 0.0.x, and the minor number from 0.1 on. Cargo's default requirement therefore keeps your default fixed. A raised minimum supported Rust version is bumped the same way.
 
 ## Other languages
 

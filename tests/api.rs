@@ -75,7 +75,8 @@ fn schema_json_defaults_to_schema_version() {
 #[test]
 fn schema_json_rejects_inexact_or_unbundled_versions() {
     for version in [
-        "0.8", "latest", "v0.8.0", "0.8.0.0", "0.7.0", "0.4.0", "9.9.9", "", " 0.8.0",
+        "0.8", "0.9", "latest", "v0.8.0", "v0.9.0", "0.8.0.0", "0.7.0", "0.4.0", "9.9.9", "",
+        " 0.8.0",
     ] {
         let error = schema_json(SchemaName::Classification, Some(version)).unwrap_err();
         assert_eq!(
@@ -86,7 +87,7 @@ fn schema_json_rejects_inexact_or_unbundled_versions() {
         );
         assert_eq!(
             error.to_string(),
-            format!("schema version {version:?} is not bundled; available: 0.8.0")
+            format!("schema version {version:?} is not bundled; available: 0.8.0, 0.9.0")
         );
     }
 }

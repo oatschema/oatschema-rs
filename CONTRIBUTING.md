@@ -42,7 +42,7 @@ Bundle a release only after oats has tagged and pushed it.
    - writes the files and `MANIFEST.json` to a staging directory and renames it into place, so a failed sync leaves nothing behind;
    - regenerates `src/generated.rs`.
 3. Update `src/lib.rs`: set `SCHEMA_VERSION` to the new version and add a `SchemaName` variant, with its `as_str` spelling and an entry in `SchemaName::ALL`, for each new schema. The build fails until every bundled name has a variant.
-4. Bump the crate's minor version (see "Versions" in the README) and add a `CHANGELOG.md` entry.
+4. Make a breaking bump of the crate's version (see "Versions" in the README): the patch number while on 0.0.x, and the minor number from 0.1 on. Add a `CHANGELOG.md` entry.
 5. Run the checks above.
 
 The task follows the rules of `scripts/sync_schemas.py` in [oatschema-py](https://github.com/oatschema/oatschema-py) for releases from 0.8.0, adds the `x-license` check that oatschema-js also makes, and produces the same files and manifests.
