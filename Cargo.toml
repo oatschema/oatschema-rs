@@ -14,7 +14,7 @@ repository = "https://github.com/oatschema/oatschema-rs"
 
 [package]
 name = "oatschema"
-version = "0.0.2"
+version = "0.0.3"
 description = "OATS (Open Annotation Task Schemas) JSON schemas, bundled for Rust."
 edition.workspace = true
 rust-version.workspace = true

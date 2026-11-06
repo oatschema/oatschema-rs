@@ -15,11 +15,11 @@
 //! use oatschema::{SchemaName, schema_json};
 //!
 //! let text = schema_json(SchemaName::Classification, None)?;
-//! assert!(text.contains(r#""$id": "https://oatschema.org/0.8.0/classification""#));
+//! assert!(text.contains(r#""$id": "https://oatschema.org/0.9.0/classification""#));
 //!
 //! let name: SchemaName = "llm-output".parse()?;
-//! let pinned = schema_json(name, Some("0.8.0"))?;
-//! assert!(pinned.contains(r#""x-version": "0.8.0""#));
+//! let pinned = schema_json(name, Some("0.9.0"))?;
+//! assert!(pinned.contains(r#""x-version": "0.9.0""#));
 //! # Ok::<(), oatschema::Error>(())
 //! ```
 //!
@@ -30,12 +30,12 @@
 //! # Schema versions
 //!
 //! Every lookup takes a version, which defaults to [`SCHEMA_VERSION`]. Versions must be exact,
-//! such as `"0.8.0"`; `"0.8"` and `"latest"` are rejected. [`available_versions`] lists every
+//! such as `"0.9.0"`; `"0.9"` and `"latest"` are rejected. [`available_versions`] lists every
 //! bundled version. Before 1.0.0, a schema version may reject records that an older one accepted,
 //! so validate a record against the version it was written for.
 //!
 //! Each schema states its own version in its `x-version` keyword, and its `$id` includes the
-//! version (`https://oatschema.org/0.8.0/classification`), so versions can sit side by side in one
+//! version (`https://oatschema.org/0.9.0/classification`), so versions can sit side by side in one
 //! JSON Schema registry. Releases before 0.8.0 are not bundled here; the Python package
 //! [`oatschema`](https://pypi.org/project/oatschema/) bundles them.
 
@@ -53,7 +53,7 @@ use std::fmt;
 use std::str::FromStr;
 
 /// The newest bundled schema version, used when no version is given.
-pub const SCHEMA_VERSION: &str = "0.8.0";
+pub const SCHEMA_VERSION: &str = "0.9.0";
 
 /// The name of an OATS schema.
 ///
@@ -174,7 +174,7 @@ pub enum Error {
         /// The name that was asked for.
         name: String,
     },
-    /// The version is not bundled. Only exact versions such as `"0.8.0"` are accepted.
+    /// The version is not bundled. Only exact versions such as `"0.9.0"` are accepted.
     UnknownVersion {
         /// The version that was asked for.
         version: String,
@@ -235,7 +235,7 @@ pub fn available_versions() -> &'static [&'static str] {
 /// Returns the schema `name` from schema version `version`, or from [`SCHEMA_VERSION`] if it is
 /// `None`, as the schema file's text exactly as released.
 ///
-/// `version` must be an exact bundled version such as `"0.8.0"`; partial versions and aliases are
+/// `version` must be an exact bundled version such as `"0.9.0"`; partial versions and aliases are
 /// not accepted.
 ///
 /// # Errors
@@ -246,7 +246,7 @@ pub fn available_versions() -> &'static [&'static str] {
 /// ```
 /// use oatschema::{Error, SchemaName, schema_json};
 ///
-/// let text = schema_json(SchemaName::TemporalSegmentation, Some("0.8.0"))?;
+/// let text = schema_json(SchemaName::TemporalSegmentation, Some("0.9.0"))?;
 /// assert!(text.contains(r#""title": "Temporal Segmentation""#));
 ///
 /// assert!(matches!(
@@ -289,7 +289,7 @@ pub fn schema_json(name: SchemaName, version: Option<&str>) -> Result<&'static s
 ///
 /// let ranking = schema(SchemaName::Ranking, None)?;
 /// assert_eq!(ranking["x-version"], oatschema::SCHEMA_VERSION);
-/// assert_eq!(ranking["$id"], "https://oatschema.org/0.8.0/ranking");
+/// assert_eq!(ranking["$id"], "https://oatschema.org/0.9.0/ranking");
 /// # Ok::<(), oatschema::Error>(())
 /// ```
 #[cfg(feature = "serde_json")]
